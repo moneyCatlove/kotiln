@@ -5,6 +5,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.Image
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -30,9 +31,11 @@ fun CatholicAppsScreen(navController: NavController) {
             modifier = Modifier.fillMaxWidth()
         ) {
             IconButton(onClick = { navController.popBackStack() }) {
-                Image(
+                Icon(
                     painter = painterResource(id = R.drawable.ic_back),
-                    contentDescription = "뒤로 가기"
+                    contentDescription = "Back",
+                    tint = Color.Black,
+                    modifier = Modifier.size(18.dp)
                 )
             }
             Spacer(modifier = Modifier.width(8.dp))

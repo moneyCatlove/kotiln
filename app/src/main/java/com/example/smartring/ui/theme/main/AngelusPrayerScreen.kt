@@ -41,7 +41,8 @@ fun AngelusPrayerScreen(navController: NavController) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_back),
                     contentDescription = "Back",
-                    tint = Color.Black
+                    tint = Color.Black,
+                    modifier = Modifier.size(18.dp)
                 )
             }
             Spacer(modifier = Modifier.width(16.dp))

@@ -42,8 +42,10 @@ fun RosaryPrayerScreen(navController: NavController) {
             navigationIcon = {
                 IconButton(onClick = { navController.popBackStack() }) {
                     Icon(
-                        painter = painterResource(id = R.drawable.ic_back),
-                        contentDescription = "Back"
+                        painter = painterResource(id = R.drawable.ic_back ),
+                        contentDescription = "Back",
+                        tint = Color.Black,
+                        modifier = Modifier.size(18.dp)
                     )
                 }
             },

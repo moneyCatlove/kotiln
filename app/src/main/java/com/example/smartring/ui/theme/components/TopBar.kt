@@ -39,7 +39,7 @@ fun TopBar() {
         ) {
             Text(
                 text = "Catholic",
-                fontSize = 28.sp,
+                fontSize = 25.sp,
                 fontWeight = FontWeight.Bold
             )
             ConnectionStatus()

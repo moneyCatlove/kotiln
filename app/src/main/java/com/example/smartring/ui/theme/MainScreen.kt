@@ -21,7 +21,9 @@ fun MainScreen(navController: NavController) {
 
         FeatureList(
             navController = navController,
-            modifier = Modifier.weight(1f)
+            modifier = Modifier
+                .weight(1f)
+                .offset(y = (-20).dp)
         )
     }
 }

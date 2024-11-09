@@ -29,8 +29,9 @@ fun PrayerScreen(navController: NavController) {
             IconButton(onClick = { navController.popBackStack() }) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_back),
-                    contentDescription = "뒤로 가기",
-                    tint = Color.Black
+                    contentDescription = "Back",
+                    tint = Color.Black,
+                    modifier = Modifier.size(18.dp)
                 )
             }
             Spacer(modifier = Modifier.width(8.dp))

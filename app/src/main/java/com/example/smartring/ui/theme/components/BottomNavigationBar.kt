@@ -23,18 +23,18 @@ fun BottomNavigationBar(navController: NavController) {
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 8.dp)
-            .background(Color(0xFFF7F7F7), shape = RoundedCornerShape(24.dp))
-
+            .height(64.dp) // 높이를 명시적으로 설정
+            .background(Color(0xFFF7F7F7), shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp)) // 상단 모서리 둥글게
+            .padding(horizontal = 16.dp) // 좌우 패딩 추가
     ) {
         BottomNavItem("가톨릭", R.drawable.ic_catholic) {
-            navController.navigate("MainScreen")
+            navController.navigate("home") // 카톨릭 메인 화면으로 이동
         }
         BottomNavItem("헬스케어", R.drawable.ic_healthcare) {
-            navController.navigate("health_main")
+            navController.navigate("health_main") // 헬스케어 화면으로 이동
         }
         BottomNavItem("설정", R.drawable.ic_settings) {
-            navController.navigate("settings_screen") // 예시 경로 아직 페이지 개발 안됨
+            navController.navigate("settings_screen") // 설정 화면으로 이동
         }
     }
 }
@@ -43,14 +43,22 @@ fun BottomNavigationBar(navController: NavController) {
 fun BottomNavItem(label: String, iconId: Int, onClick: () -> Unit) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.clickable(onClick = onClick).padding(8.dp)
+        modifier = Modifier
+            .clickable(onClick = onClick)
+            .padding(4.dp) // 전체 패딩 조정
     ) {
         Icon(
             painter = painterResource(id = iconId),
             contentDescription = label,
-            modifier = Modifier.size(35.dp),
+            modifier = Modifier
+                .size(32.dp) // 아이콘 크기 조정
+                .padding(bottom = 4.dp), // 아이콘과 텍스트 간격
             tint = Color.Unspecified
         )
-        Text(text = label, fontSize = 12.sp)
+        Text(
+            text = label,
+            fontSize = 12.sp,
+            color = Color.Black // 텍스트 색상 명시
+        )
     }
 }

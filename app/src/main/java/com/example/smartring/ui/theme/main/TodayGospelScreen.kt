@@ -28,12 +28,13 @@ fun TodayGospelScreen(navController: NavController) {
             modifier = Modifier.fillMaxWidth()
         ) {
             IconButton(
-                onClick = { navController.popBackStack() } // 뒤로 가기 버튼
+                onClick = { navController.popBackStack() }
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_back),
                     contentDescription = "Back",
-                    tint = Color.Black
+                    tint = Color.Black,
+                    modifier = Modifier.size(18.dp)
                 )
             }
             Spacer(modifier = Modifier.width(16.dp))
@@ -45,6 +46,5 @@ fun TodayGospelScreen(navController: NavController) {
             )
         }
         Spacer(modifier = Modifier.height(32.dp))
-     //아직 디자인 미완성
     }
 }
