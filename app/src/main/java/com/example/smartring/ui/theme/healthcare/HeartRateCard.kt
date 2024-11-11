@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -14,6 +15,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.navigation.NavController
 import com.example.smartring.R
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.XAxis
@@ -22,7 +24,7 @@ import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 
 @Composable
-fun HeartRateCard() {
+fun HeartRateCard(navController: NavController) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -48,12 +50,19 @@ fun HeartRateCard() {
                         color = androidx.compose.ui.graphics.Color.Gray
                     )
                 }
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_vector_3),
-                    contentDescription = "Go to Details",
-                    modifier = Modifier.size(24.dp),
-                    tint = androidx.compose.ui.graphics.Color.Gray
-                )
+                IconButton(
+                    onClick = {
+                        // 심박수 상세 화면으로 이동
+                        navController.navigate("heart_rate_detail_screen")
+                    }
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_vector_3),
+                        contentDescription = "Go to Details",
+                        tint = androidx.compose.ui.graphics.Color.Gray,
+                        modifier = Modifier.size(24.dp)
+                    )
+                }
             }
 
             Spacer(modifier = Modifier.height(16.dp))

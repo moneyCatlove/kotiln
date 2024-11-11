@@ -39,8 +39,9 @@ fun SleepDayDetailScreen(navController: NavController) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_back),
                     contentDescription = "Back",
-                    tint = Color.Black
-                )
+                    tint = Color.Black,
+                    modifier = Modifier.size(20.dp)
+                    )
             }
             Spacer(modifier = Modifier.width(8.dp))
             Text(

@@ -12,6 +12,8 @@ import com.example.smartring.ui.theme.MainScreen
 import com.example.smartring.ui.theme.components.BottomNavigationBar
 import com.example.smartring.ui.theme.components.TopBar
 import com.example.smartring.ui.theme.healthcare.HealthCareScreen
+import com.example.smartring.ui.theme.healthcare.HeartRateDetailScreen
+import com.example.smartring.ui.theme.healthcare.OxygenLevelDetailScreen
 import com.example.smartring.ui.theme.healthcare.SleepDayDetailScreen
 import com.example.smartring.ui.theme.main.AngelusPrayerScreen
 import com.example.smartring.ui.theme.main.CatholicAppsScreen
@@ -64,6 +66,8 @@ fun AppNavHost() {
 
             //healthcare 라우터들
             composable("sleep_day_detail_screen") {SleepDayDetailScreen(navController = navController)}
+            composable("heart_rate_detail_screen") { HeartRateDetailScreen(navController = navController) }
+            composable("oxygen_level_detail_screen") { OxygenLevelDetailScreen(navController = navController) }
 
 
         }

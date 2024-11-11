@@ -6,6 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -50,17 +51,18 @@ fun SleepCard(navController: NavController) {
                         color = androidx.compose.ui.graphics.Color.Gray
                     )
                 }
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_vector_3),
-                    contentDescription = "Go to Details",
-                    modifier = Modifier
-                        .size(24.dp)
-                        .clickable {
-                            // 클릭 시 상세 화면으로 이동
-                            navController.navigate("sleep_day_detail_screen")
-                        },
-                    tint = androidx.compose.ui.graphics.Color.Gray
-                )
+                IconButton(
+                    onClick = {
+                        navController.navigate("sleep_day_detail_screen")
+                    }
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_vector_3),
+                        contentDescription = "Go to Details",
+                        modifier = Modifier.size(24.dp),
+                        tint = androidx.compose.ui.graphics.Color.Gray
+                    )
+                }
             }
 
             Spacer(modifier = Modifier.height(16.dp))

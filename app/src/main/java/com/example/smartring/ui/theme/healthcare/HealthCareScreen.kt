@@ -35,13 +35,13 @@ fun HealthCareScreen(navController: NavController) {
                 SleepCard(navController = navController)
             }
             item {
-                HeartRateCard()
+                HeartRateCard(navController = navController)
+            }
+            item {
+                OxygenLevelCard(navController = navController)
             }
             item {
                 StressCard()
-            }
-            item {
-                OxygenLevelCard()
             }
             item {
                 ActivityCard()

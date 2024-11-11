@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -14,6 +15,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.navigation.NavController
 import com.example.smartring.R
 import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.components.XAxis
@@ -23,7 +25,7 @@ import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 
 @Composable
-fun OxygenLevelCard() {
+fun OxygenLevelCard(navController: NavController) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -49,12 +51,18 @@ fun OxygenLevelCard() {
                         color = androidx.compose.ui.graphics.Color.Gray
                     )
                 }
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_vector_3),
-                    contentDescription = "Go to Details",
-                    modifier = Modifier.size(24.dp),
-                    tint = androidx.compose.ui.graphics.Color.Gray
-                )
+                IconButton(
+                    onClick = {
+                        navController.navigate("oxygen_level_detail_screen")
+                    }
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_vector_3),
+                        contentDescription = "Go to Details",
+                        tint = androidx.compose.ui.graphics.Color.Gray,
+                        modifier = Modifier.size(24.dp)
+                    )
+                }
             }
 
             Spacer(modifier = Modifier.height(16.dp))
