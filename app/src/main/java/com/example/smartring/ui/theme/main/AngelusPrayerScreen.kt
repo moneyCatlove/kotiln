@@ -70,7 +70,7 @@ fun AngelusPrayerScreen(navController: NavController) {
     }
 }
 
-// 알림 설정 행을 위한 Composable 함수
+// 알림 설정 행을 위한
 @Composable
 fun NotificationSwitchRow(time: String, isChecked: Boolean, onCheckedChange: (Boolean) -> Unit) {
     Row(

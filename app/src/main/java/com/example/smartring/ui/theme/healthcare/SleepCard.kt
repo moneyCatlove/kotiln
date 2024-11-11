@@ -2,6 +2,7 @@ package com.example.smartring.ui.theme.healthcare
 
 import android.graphics.Color
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
@@ -15,6 +16,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.navigation.NavController
 import com.example.smartring.R
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.PieData
@@ -22,7 +24,7 @@ import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 
 @Composable
-fun SleepCard() {
+fun SleepCard(navController: NavController) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -40,7 +42,7 @@ fun SleepCard() {
                     Text(
                         text = "수면",
                         fontSize = 20.sp,
-                        color = androidx.compose.ui.graphics.Color(0xFF00BFA5) // 청록색
+                        color = androidx.compose.ui.graphics.Color(0xFF00BFA5)
                     )
                     Text(
                         text = "2024년 8월 15일",
@@ -51,31 +53,35 @@ fun SleepCard() {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_vector_3),
                     contentDescription = "Go to Details",
-                    modifier = Modifier.size(24.dp),
+                    modifier = Modifier
+                        .size(24.dp)
+                        .clickable {
+                            // 클릭 시 상세 화면으로 이동
+                            navController.navigate("sleep_day_detail_screen")
+                        },
                     tint = androidx.compose.ui.graphics.Color.Gray
                 )
             }
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // 그래프 (MPAndroidChart PieChart 사용)
+            // 그래프
             AndroidView(
                 factory = { context ->
                     PieChart(context).apply {
                         val entries = listOf(
-                            PieEntry(80f, ""), // 80% 수면
-                            PieEntry(20f, "") // 나머지 비활성
+                            PieEntry(80f, ""), // 활성 수면
+                            PieEntry(20f, "") // 비활성 수면
                         )
                         val dataSet = PieDataSet(entries, "").apply {
                             colors = listOf(
-                                Color.parseColor("#00BFA5"), // 활성 영역
-                                Color.parseColor("#E0E0E0")  // 비활성 영역
+                                Color.parseColor("#00BFA5"),
+                                Color.parseColor("#E0E0E0")
                             )
                             sliceSpace = 2f
                             setDrawValues(false)
                         }
-                        val pieData = PieData(dataSet)
-                        data = pieData
+                        data = PieData(dataSet)
 
                         holeRadius = 80f
                         transparentCircleRadius = 85f
@@ -92,7 +98,6 @@ fun SleepCard() {
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            // 중앙 점수 및 상태
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.fillMaxWidth()

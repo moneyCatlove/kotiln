@@ -24,24 +24,24 @@ fun HealthCareScreen(navController: NavController) {
             .fillMaxSize()
             .background(Color(0xFFF7F7F7))
     ) {
-        // 콘텐츠 섹션
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(horizontal = 16.dp),
-            contentPadding = PaddingValues(bottom = 64.dp)
+            contentPadding = PaddingValues(vertical = 16.dp)
         ) {
             item {
-                SleepCard()
+                // SleepCard에 NavController 전달
+                SleepCard(navController = navController)
             }
             item {
                 HeartRateCard()
             }
             item {
-                OxygenLevelCard()
+                StressCard()
             }
             item {
-                StressCard()
+                OxygenLevelCard()
             }
             item {
                 ActivityCard()
@@ -49,6 +49,7 @@ fun HealthCareScreen(navController: NavController) {
         }
     }
 }
+
 
 @Composable
 fun CardTemplate(title: String, date: String, content: String) {
