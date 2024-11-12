@@ -33,7 +33,6 @@ fun ActivityCard(navController: NavController) {
             .padding(16.dp)
     ) {
         Column {
-            // 제목과 날짜
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 modifier = Modifier.fillMaxWidth()
