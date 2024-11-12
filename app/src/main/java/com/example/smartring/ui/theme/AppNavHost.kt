@@ -11,10 +11,12 @@ import androidx.navigation.compose.rememberNavController
 import com.example.smartring.ui.theme.MainScreen
 import com.example.smartring.ui.theme.components.BottomNavigationBar
 import com.example.smartring.ui.theme.components.TopBar
+import com.example.smartring.ui.theme.healthcare.ActivityDetailScreen
 import com.example.smartring.ui.theme.healthcare.HealthCareScreen
 import com.example.smartring.ui.theme.healthcare.HeartRateDetailScreen
 import com.example.smartring.ui.theme.healthcare.OxygenLevelDetailScreen
 import com.example.smartring.ui.theme.healthcare.SleepDayDetailScreen
+import com.example.smartring.ui.theme.healthcare.StressDayDetailScreen
 import com.example.smartring.ui.theme.main.AngelusPrayerScreen
 import com.example.smartring.ui.theme.main.CatholicAppsScreen
 import com.example.smartring.ui.theme.main.ChurchNewsScreen
@@ -68,6 +70,8 @@ fun AppNavHost() {
             composable("sleep_day_detail_screen") {SleepDayDetailScreen(navController = navController)}
             composable("heart_rate_detail_screen") { HeartRateDetailScreen(navController = navController) }
             composable("oxygen_level_detail_screen") { OxygenLevelDetailScreen(navController = navController) }
+            composable("stress_day_detail_screen") { StressDayDetailScreen(navController = navController) }
+            composable("activity_detail_screen") { ActivityDetailScreen(navController = navController) }
 
 
         }

@@ -41,10 +41,10 @@ fun HealthCareScreen(navController: NavController) {
                 OxygenLevelCard(navController = navController)
             }
             item {
-                StressCard()
+                StressCard(navController = navController)
             }
             item {
-                ActivityCard()
+                ActivityCard(navController = navController)
             }
         }
     }
