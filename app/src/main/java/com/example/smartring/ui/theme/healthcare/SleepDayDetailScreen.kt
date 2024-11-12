@@ -43,7 +43,8 @@ fun SleepDayDetailScreen(navController: NavController) {
             Icon(
                 painter = painterResource(id = R.drawable.ic_back),
                 contentDescription = "Back",
-                tint = androidx.compose.ui.graphics.Color.Black
+                tint = androidx.compose.ui.graphics.Color.Black,
+                modifier = Modifier.size(20.dp)
             )
         }
 
