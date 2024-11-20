@@ -24,14 +24,14 @@ fun FeatureList(navController: NavController, modifier: Modifier = Modifier) {
             .fillMaxSize()
             .background(Color(0xFFF7F7F7))
             .padding(10.dp),
-        contentPadding = PaddingValues(bottom = 56.dp) // BottomNavigationBar 높이만큼 패딩 추가
+        contentPadding = PaddingValues(bottom = 56.dp) 
     ) {
         item {
             FeatureItem(
                 title = "묵주기도",
                 subtitle = "묵주기도 단수 기록",
                 primaryIconId = R.drawable.ic_vector_3,
-                secondaryIconId = R.drawable.ic_hands // 서브 아이콘 추가
+                secondaryIconId = R.drawable.ic_hands
             ) {
                 navController.navigate("rosary_prayer")
             }

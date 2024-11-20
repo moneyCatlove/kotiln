@@ -1,0 +1,38 @@
+name: smartring
+description: "A new Flutter project."
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.3.1 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.6
+  fl_chart: ^0.40.0 # Pie Chart를 위한 패키지 추가
+  provider: ^6.1.2 # 상태 관리용(필요 시)
+  http: ^1.0.0 # 네트워크 요청 시 필요(예: API 통신)
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+flutter:
+  uses-material-design: true
+
+  # Assets 섹션 추가
+  assets:
+    - assets/icons/ # 아이콘 폴더 추가
+    - assets/images/ # 이미지 폴더 추가
+
+  # Fonts 섹션 추가 (필요한 경우)
+  # fonts:
+  #   - family: CustomFont
+  #     fonts:
+  #       - asset: assets/fonts/CustomFont-Regular.ttf
+  #       - asset: assets/fonts/CustomFont-Bold.ttf
+  #         weight: 700

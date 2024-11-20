@@ -13,14 +13,14 @@ class BluetoothViewModel : ViewModel() {
     private val _batteryLevel = MutableStateFlow(0)
     val batteryLevel: StateFlow<Int> = _batteryLevel
 
-    // 연결 상태 변경
+    // 연결 상태
     fun updateConnectionStatus(connected: Boolean) {
         viewModelScope.launch {
             _isConnected.emit(connected)
         }
     }
 
-    // 배터리 수준 업데이트
+    // 배터리 상태
     fun updateBatteryLevel(level: Int) {
         viewModelScope.launch {
             _batteryLevel.emit(level)

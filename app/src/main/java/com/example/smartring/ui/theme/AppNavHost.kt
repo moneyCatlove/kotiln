@@ -8,6 +8,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.smartring.ble.BluetoothManager
 import com.example.smartring.ui.theme.components.BottomNavigationBar
 import com.example.smartring.ui.theme.components.TopBar
 import com.example.smartring.ui.theme.healthcare.*
@@ -16,17 +17,20 @@ import com.example.smartring.ui.theme.setting.*
 
 @Composable
 fun AppNavHost(bluetoothManager: BluetoothManager) {
+    // 네비게이션 컨트롤러 초기화
     val navController = rememberNavController()
 
+    // Scaffold를 사용하여 상단바와 하단바 포함
     Scaffold(
         topBar = { TopBar(bluetoothManager = bluetoothManager) },
         bottomBar = { BottomNavigationBar(navController = navController) },
-        containerColor = Color(0xFFF7F7F7)
+        containerColor = Color(0xFFF7F7F7) // 배경색 설정
     ) { innerPadding ->
+        // 네비게이션 호스트
         NavHost(
             navController = navController,
-            startDestination = "home",
-            modifier = Modifier.padding(innerPadding)
+            startDestination = "home", // 초기 화면
+            modifier = Modifier.padding(innerPadding) // Scaffold 패딩 추가
         ) {
             // Main Screens
             composable("home") { MainScreen(navController = navController) }
