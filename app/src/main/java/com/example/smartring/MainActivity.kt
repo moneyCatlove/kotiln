@@ -13,7 +13,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.core.content.ContextCompat
 import com.example.smartring.MainApplication.Companion.manager
-import com.example.smartring.controller.TopBarController
 import com.example.smartring.ui.theme.AppNavHost
 import com.example.smartring.ui.theme.SmartRingTheme
 import com.example.smartring.util.JsonInfo
@@ -45,7 +44,7 @@ class MainActivity :
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             permissions =
-                arrayOf<String>(
+                arrayOf(
                     Manifest.permission.ACCESS_FINE_LOCATION,
                     Manifest.permission.BLUETOOTH_SCAN,
                     Manifest.permission.BLUETOOTH_CONNECT,
@@ -112,7 +111,6 @@ class MainActivity :
 
     override fun onConnected() {
         Log.d("umjunsik", "연결됨")
-        TopBarController().getBatteryAndConnection()
     }
 
     override fun onDisConnect() {
@@ -129,6 +127,7 @@ class MainActivity :
         val msg = Message.obtain()
         msg.what = MSG_JSON_DATA
         msg.obj = jsonInfo
+        result.plus(jsonObject)
         handler.sendMessageDelayed(msg, 500)
     }
 
@@ -149,5 +148,9 @@ class MainActivity :
 
     override fun getGpsDataProgress(p0: Int) {
         Log.d("umjunsik", "GPS")
+    }
+
+    companion object {
+        var result: List<JSONObject> = mutableListOf()
     }
 }
