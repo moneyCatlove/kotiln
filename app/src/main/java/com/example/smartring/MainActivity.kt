@@ -5,7 +5,6 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.runtime.Composable
 import com.example.smartring.ble.PermissionUtils
 import com.example.smartring.ui.theme.AppNavHost
 import com.example.smartring.ui.theme.SmartRingTheme

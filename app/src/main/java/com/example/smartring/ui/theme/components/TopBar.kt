@@ -18,9 +18,9 @@ import com.example.smartring.ble.BluetoothManager
 import com.example.smartring.ui.theme.components.ConnectionStatus
 
 @Composable
-fun TopBar(bluetoothManager: BluetoothManager) {
+fun TopBar() {
     val isConnected = remember { mutableStateOf(false) }
-    bluetoothManager.setConnectionStatusListener { isConnected.value = it }
+
 
     Box(
         modifier = Modifier

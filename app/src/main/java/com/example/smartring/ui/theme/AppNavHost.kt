@@ -15,11 +15,11 @@ import com.example.smartring.ui.theme.main.*
 import com.example.smartring.ui.theme.setting.*
 
 @Composable
-fun AppNavHost(bluetoothManager: BluetoothManager) {
+fun AppNavHost() {
     val navController = rememberNavController()
 
     Scaffold(
-        topBar = { TopBar(bluetoothManager = bluetoothManager) },
+        topBar = { TopBar() },
         bottomBar = { BottomNavigationBar(navController = navController) },
         containerColor = Color(0xFFF7F7F7)
     ) { innerPadding ->
@@ -50,7 +50,6 @@ fun AppNavHost(bluetoothManager: BluetoothManager) {
             composable("find_ring_screen") {
                 FindRingScreen(
                     navController = navController,
-                    bluetoothManager = bluetoothManager
                 )
             }
             composable("health_monitoring_screen") { HealthMonitoringSettingsScreen(navController = navController) }

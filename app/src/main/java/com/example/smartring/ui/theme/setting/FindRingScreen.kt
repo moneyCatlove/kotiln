@@ -1,5 +1,6 @@
 package com.example.smartring.ui.theme.setting
 
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -13,7 +14,7 @@ import androidx.navigation.NavController
 import com.example.smartring.ble.BluetoothManager
 
 @Composable
-fun FindRingScreen(navController: NavController, bluetoothManager: BluetoothManager) {
+fun FindRingScreen(navController: NavController) {
     Column(modifier = Modifier.padding(16.dp)) {
         Text(text = "반지 찾기 화면입니다.")
 
@@ -21,11 +22,7 @@ fun FindRingScreen(navController: NavController, bluetoothManager: BluetoothMana
 
         Button(
             onClick = {
-                try {
-                    bluetoothManager.connectToDevice("40:27:24:50:00:20") // 실제 MAC 주소 입력
-                } catch (e: Exception) {
-                    println("Error connecting to device: ${e.message}")
-                }
+                Log.d("연결 매니저", "테스트 문장")
             }
         ) {
             Text(text = "Connect to Bluetooth Device")
