@@ -1,6 +1,7 @@
 package com.example.smartring
 
 import android.app.Application
+import android.util.Log
 import com.smtlink.transferprotocolsdk.ble.BleTransferManager
 
 class MainApplication : Application() {
