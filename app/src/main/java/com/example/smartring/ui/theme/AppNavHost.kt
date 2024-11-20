@@ -21,12 +21,12 @@ fun AppNavHost() {
     Scaffold(
         topBar = { TopBar() },
         bottomBar = { BottomNavigationBar(navController = navController) },
-        containerColor = Color(0xFFF7F7F7)
+        containerColor = Color(0xFFF7F7F7),
     ) { innerPadding ->
         NavHost(
             navController = navController,
             startDestination = "home",
-            modifier = Modifier.padding(innerPadding)
+            modifier = Modifier.padding(innerPadding),
         ) {
             // Main Screens
             composable("home") { MainScreen(navController = navController) }

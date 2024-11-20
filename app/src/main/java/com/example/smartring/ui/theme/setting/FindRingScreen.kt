@@ -1,6 +1,5 @@
 package com.example.smartring.ui.theme.setting
 
-import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -11,7 +10,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.smartring.ble.BluetoothManager
 
 @Composable
 fun FindRingScreen(navController: NavController) {
@@ -22,8 +20,7 @@ fun FindRingScreen(navController: NavController) {
 
         Button(
             onClick = {
-                Log.d("연결 매니저", "테스트 문장")
-            }
+            },
         ) {
             Text(text = "Connect to Bluetooth Device")
         }

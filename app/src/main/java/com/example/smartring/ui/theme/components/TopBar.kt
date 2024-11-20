@@ -14,42 +14,41 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.smartring.R
-import com.example.smartring.ble.BluetoothManager
-import com.example.smartring.ui.theme.components.ConnectionStatus
 
 @Composable
 fun TopBar() {
-    val isConnected = remember { mutableStateOf(false) }
-
+    val isConnected = remember { mutableStateOf(true) }
+    val remainingBettery: Int = 0
 
     Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 24.dp)
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 24.dp),
     ) {
         IconButton(
             onClick = { /* TODO: Drawer open */ },
-            modifier = Modifier.align(Alignment.CenterStart)
+            modifier = Modifier.align(Alignment.CenterStart),
         ) {
             Icon(
                 painter = painterResource(id = R.drawable.ic_meun),
                 contentDescription = "Menu",
-                modifier = Modifier.size(28.dp)
+                modifier = Modifier.size(28.dp),
             )
         }
 
         Column(
             modifier = Modifier.align(Alignment.Center),
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Text(
                 text = "Catholic",
                 fontSize = 25.sp,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
             )
             ConnectionStatus(
                 isConnected = isConnected.value, // .value 전달
-                batteryLevel = 80
+                batteryLevel = remainingBettery,
             )
         }
     }
