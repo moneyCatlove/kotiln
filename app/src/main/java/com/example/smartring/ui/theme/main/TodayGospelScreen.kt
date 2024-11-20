@@ -18,23 +18,24 @@ import com.example.smartring.R
 @Composable
 fun TodayGospelScreen(navController: NavController) {
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
         ) {
             IconButton(
-                onClick = { navController.popBackStack() }
+                onClick = { navController.popBackStack() },
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_back),
                     contentDescription = "Back",
                     tint = Color.Black,
-                    modifier = Modifier.size(18.dp)
+                    modifier = Modifier.size(18.dp),
                 )
             }
             Spacer(modifier = Modifier.width(16.dp))
@@ -42,7 +43,7 @@ fun TodayGospelScreen(navController: NavController) {
                 text = "오늘의 복음",
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color.Black
+                color = Color.Black,
             )
         }
         Spacer(modifier = Modifier.height(32.dp))

@@ -21,39 +21,42 @@ import com.example.smartring.R
 fun RosaryPrayerScreen(navController: NavController) {
     var selectedTab by remember { mutableStateOf(0) }
     val tabTitles = listOf("1주", "1개월", "1년")
-    val prayerRecords = listOf(
-        PrayerRecord("5월 20일", "5 단"),
-        PrayerRecord("5월 21일", "4 단"),
-        PrayerRecord("5월 22일", "10 단"),
-        PrayerRecord("5월 23일", "5 단"),
-        PrayerRecord("5월 24일", "4 단"),
-        PrayerRecord("5월 25일", "5 단"),
-        PrayerRecord("5월 26일", "5 단")
-    )
+    val prayerRecords =
+        listOf(
+            PrayerRecord("5월 20일", "5 단"),
+            PrayerRecord("5월 21일", "4 단"),
+            PrayerRecord("5월 22일", "10 단"),
+            PrayerRecord("5월 23일", "5 단"),
+            PrayerRecord("5월 24일", "4 단"),
+            PrayerRecord("5월 25일", "5 단"),
+            PrayerRecord("5월 26일", "5 단"),
+        )
 
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         TopAppBar(
             title = { Text(text = "묵주기도", fontSize = 24.sp, fontWeight = FontWeight.Bold) },
             navigationIcon = {
                 IconButton(onClick = { navController.popBackStack() }) {
                     Icon(
-                        painter = painterResource(id = R.drawable.ic_back ),
+                        painter = painterResource(id = R.drawable.ic_back),
                         contentDescription = "Back",
                         tint = Color.Black,
-                        modifier = Modifier.size(18.dp)
+                        modifier = Modifier.size(18.dp),
                     )
                 }
             },
-            colors = TopAppBarDefaults.topAppBarColors(
-                containerColor = Color.White,
-                titleContentColor = Color.Black,
-                navigationIconContentColor = Color.Black
-            )
+            colors =
+                TopAppBarDefaults.topAppBarColors(
+                    containerColor = Color.White,
+                    titleContentColor = Color.Black,
+                    navigationIconContentColor = Color.Black,
+                ),
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -61,7 +64,7 @@ fun RosaryPrayerScreen(navController: NavController) {
         TabRow(
             selectedTabIndex = selectedTab,
             modifier = Modifier.fillMaxWidth(),
-            contentColor = Color.Black
+            contentColor = Color.Black,
         ) {
             tabTitles.forEachIndexed { index, title ->
                 Tab(
@@ -70,9 +73,9 @@ fun RosaryPrayerScreen(navController: NavController) {
                     text = {
                         Text(
                             text = title,
-                            fontWeight = if (selectedTab == index) FontWeight.Bold else FontWeight.Normal
+                            fontWeight = if (selectedTab == index) FontWeight.Bold else FontWeight.Normal,
                         )
-                    }
+                    },
                 )
             }
         }
@@ -89,9 +92,10 @@ fun RosaryPrayerScreen(navController: NavController) {
         Spacer(modifier = Modifier.height(8.dp))
 
         LazyColumn(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(Color(0xFFF5F5F5))
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .background(Color(0xFFF5F5F5)),
         ) {
             items(prayerRecords) { record ->
                 PrayerRecordItem(record)
@@ -100,23 +104,27 @@ fun RosaryPrayerScreen(navController: NavController) {
     }
 }
 
-data class PrayerRecord(val date: String, val count: String)
+data class PrayerRecord(
+    val date: String,
+    val count: String,
+)
 
 @Composable
 fun PrayerRecordItem(record: PrayerRecord) {
     Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 8.dp, horizontal = 16.dp),
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp, horizontal = 16.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Icon(
                 painter = painterResource(id = R.drawable.ic_heart),
                 contentDescription = "Heart Icon",
                 modifier = Modifier.size(20.dp),
-                tint = Color.Unspecified
+                tint = Color.Unspecified,
             )
             Spacer(modifier = Modifier.width(8.dp))
             Text(text = record.date, fontSize = 16.sp)
