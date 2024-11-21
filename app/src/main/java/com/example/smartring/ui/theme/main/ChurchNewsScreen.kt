@@ -1,5 +1,6 @@
 package com.example.smartring.ui.theme.main
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -22,16 +23,19 @@ fun ChurchNewsScreen(navController: NavController) {
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        // 상단 헤더
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 16.dp)
         ) {
             IconButton(onClick = { navController.popBackStack() }) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_back),
-                    contentDescription = "Back",
+                    contentDescription = "뒤로가기 버튼",
                     tint = Color.Black,
-                    modifier = Modifier.size(18.dp)
+                    modifier = Modifier.size(24.dp)
                 )
             }
             Spacer(modifier = Modifier.width(8.dp))
@@ -44,6 +48,19 @@ fun ChurchNewsScreen(navController: NavController) {
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        //아직 디자인 픽싱 안됨
+        // 메인 이미지
+        Image(
+            painter = painterResource(id = R.drawable.im_cathilc_newspaper),
+            contentDescription = "기독교 소식 이미지",
+            modifier = Modifier
+                .size(600.dp)
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+        Text(
+            text = "최근 성당 소식을 확인하세요.",
+            fontSize = 16.sp,
+            color = Color.Gray
+        )
     }
 }

@@ -10,10 +10,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.smartring.ble.BluetoothManager
 
 @Composable
-fun FindRingScreen(navController: NavController, BluetoothManager: BluetoothManager) {
+fun FindRingScreen(navController: NavController) {
     Column(modifier = Modifier.padding(16.dp)) {
         Text(text = "반지 찾기 화면입니다.")
 

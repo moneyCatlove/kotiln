@@ -14,18 +14,17 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.smartring.R
-import com.example.smartring.ble.BluetoothManager
 
 @Composable
-fun TopBar(BluetoothManager: BluetoothManager) {
+fun TopBar() {
     val isConnected = remember { mutableStateOf(true) }
     val remainingBettery: Int = 0
 
     Box(
         modifier =
-            Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 24.dp),
+        Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 24.dp),
     ) {
         IconButton(
             onClick = { /* TODO: Drawer open */ },
