@@ -1,18 +1,14 @@
 package com.example.smartring.ui.theme.healthcare
 
-import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -31,7 +27,6 @@ fun HealthCareScreen(navController: NavController) {
             contentPadding = PaddingValues(vertical = 16.dp)
         ) {
             item {
-                // SleepCard에 NavController 전달
                 SleepCard(navController = navController)
             }
             item {
@@ -50,6 +45,50 @@ fun HealthCareScreen(navController: NavController) {
     }
 }
 
+@Composable
+fun SleepCard(navController: NavController) {
+    CardTemplate(
+        title = "수면 데이터",
+        date = "2024년 8월 19일",
+        content = "오늘 수면 시간: 7시간 30분"
+    )
+}
+
+@Composable
+fun HeartRateCard(navController: NavController) {
+    CardTemplate(
+        title = "심박수 데이터",
+        date = "2024년 8월 19일",
+        content = "현재 심박수: 72 bpm"
+    )
+}
+
+@Composable
+fun OxygenLevelCard(navController: NavController) {
+    CardTemplate(
+        title = "혈중 산소 데이터",
+        date = "2024년 8월 19일",
+        content = "현재 산소 농도: 98%"
+    )
+}
+
+@Composable
+fun StressCard(navController: NavController) {
+    CardTemplate(
+        title = "스트레스 데이터",
+        date = "2024년 8월 19일",
+        content = "현재 스트레스 레벨: 낮음"
+    )
+}
+
+@Composable
+fun ActivityCard(navController: NavController) {
+    CardTemplate(
+        title = "활동 데이터",
+        date = "2024년 8월 19일",
+        content = "걸음 수: 8,500 걸음"
+    )
+}
 
 @Composable
 fun CardTemplate(title: String, date: String, content: String) {

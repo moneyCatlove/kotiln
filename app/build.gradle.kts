@@ -75,6 +75,7 @@ dependencies {
 
     // MPAndroidChart for graphs
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
+    implementation("com.github.PhilJay:MPAndroidChart:3.1.0") // 최신 버전 유지
 
     // Bluetooth dependencies
     implementation("androidx.bluetooth:bluetooth:1.1.0")
@@ -95,4 +96,8 @@ dependencies {
 
     // Include all `.jar` files in the `libs` directory
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
+
+    // 추가 의존성: MPAndroidChart 확장 지원을 위한 도구 (필요시)
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
+
 }

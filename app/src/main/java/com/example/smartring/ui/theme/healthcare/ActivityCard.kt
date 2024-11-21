@@ -7,10 +7,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -18,13 +17,27 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.navigation.NavController
 import com.example.smartring.R
+import com.example.smartring.model.CurrectHealthFetcher
+import com.example.smartring.model.CurrectHealthModel
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
+import com.smtlink.transferprotocolsdk.ble.BleTransferManager
 
 @Composable
-fun ActivityCard(navController: NavController) {
+fun ActivityCard(navController: NavController, manager: BleTransferManager) {
+    var healthData by remember { mutableStateOf<CurrectHealthModel?>(null) }
+    var isLoading by remember { mutableStateOf(true) }
+
+    // Fetch data
+    LaunchedEffect(Unit) {
+        CurrectHealthFetcher.fetch(manager) { data ->
+            healthData = data
+            isLoading = false
+        }
+    }
+
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -44,7 +57,7 @@ fun ActivityCard(navController: NavController) {
                         color = androidx.compose.ui.graphics.Color(0xFFE57373)
                     )
                     Text(
-                        text = "2024년 8월 15일",
+                        text = healthData?.let { "데이터를 불러왔습니다" } ?: "2024년 8월 15일",
                         fontSize = 14.sp,
                         color = androidx.compose.ui.graphics.Color.Gray
                     )
@@ -61,7 +74,6 @@ fun ActivityCard(navController: NavController) {
                         modifier = Modifier.size(24.dp)
                     )
                 }
-
             }
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -71,8 +83,8 @@ fun ActivityCard(navController: NavController) {
                 factory = { context ->
                     PieChart(context).apply {
                         val entries = listOf(
-                            PieEntry(80f, ""), // 80% 표시
-                            PieEntry(20f, "") // 나머지 20%
+                            PieEntry(healthData?.stepCount?.toFloat() ?: 0f, ""), // 걸음 수
+                            PieEntry((10000f - (healthData?.stepCount?.toFloat() ?: 0f)), "") // 목표 대비 남은 값
                         )
                         val dataSet = PieDataSet(entries, "").apply {
                             colors = listOf(
@@ -106,13 +118,13 @@ fun ActivityCard(navController: NavController) {
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text(
-                    text = "80",
+                    text = "${healthData?.stepCount ?: 0}",
                     fontSize = 48.sp,
                     fontWeight = FontWeight.Bold,
                     color = androidx.compose.ui.graphics.Color.Black
                 )
                 Text(
-                    text = "좋음",
+                    text = if (healthData?.stepCount ?: 0 > 5000) "좋음" else "평균",
                     fontSize = 16.sp,
                     color = androidx.compose.ui.graphics.Color.Gray
                 )
@@ -134,7 +146,7 @@ fun ActivityCard(navController: NavController) {
                     )
                     Spacer(modifier = Modifier.height(4.dp))
                     Text(
-                        text = "77 Kcal",
+                        text = "${healthData?.heartRate ?: 0} BPM",
                         fontSize = 14.sp,
                         color = androidx.compose.ui.graphics.Color.Gray
                     )
@@ -148,7 +160,7 @@ fun ActivityCard(navController: NavController) {
                     )
                     Spacer(modifier = Modifier.height(4.dp))
                     Text(
-                        text = "1500 걸음",
+                        text = "${healthData?.stepCount ?: 0} 걸음",
                         fontSize = 14.sp,
                         color = androidx.compose.ui.graphics.Color.Gray
                     )
