@@ -7,7 +7,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toArgb
@@ -17,15 +17,28 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.navigation.NavController
 import com.example.smartring.R
+import com.example.smartring.model.BloodOxygenModel
+import com.smtlink.transferprotocolsdk.ble.BleTransferManager
 import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.components.XAxis
-import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
+import kotlinx.coroutines.launch
 
 @Composable
-fun OxygenLevelCard(navController: NavController) {
+fun OxygenLevelCard(navController: NavController, manager: BleTransferManager) {
+    var bloodOxygenData by remember { mutableStateOf<List<BloodOxygenModel>?>(null) }
+    var isLoading by remember { mutableStateOf(true) }
+
+    LaunchedEffect(Unit) {
+        isLoading = true
+        BloodOxygenModel.fetch(manager) { data ->
+            bloodOxygenData = data
+            isLoading = false
+        }
+    }
+
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -46,7 +59,7 @@ fun OxygenLevelCard(navController: NavController) {
                         color = androidx.compose.ui.graphics.Color(0xFF42A5F5)
                     )
                     Text(
-                        text = "2024년 8월 15일",
+                        text = if (bloodOxygenData != null) "실시간 데이터" else "2024년 8월 15일",
                         fontSize = 14.sp,
                         color = androidx.compose.ui.graphics.Color.Gray
                     )
@@ -71,42 +84,40 @@ fun OxygenLevelCard(navController: NavController) {
             AndroidView(
                 factory = { context ->
                     BarChart(context).apply {
-                        // Dummy Data
-                        val entries = listOf(
-                            BarEntry(0f, 98f),
-                            BarEntry(2f, 97f),
-                            BarEntry(4f, 98f),
-                            BarEntry(6f, 97f),
-                            BarEntry(8f, 98f),
-                            BarEntry(10f, 98f),
-                            BarEntry(12f, 97f)
-                        )
-                        val dataSet = BarDataSet(entries, "혈중 산소").apply {
-                            color = Color.parseColor("#42A5F5")
-                            valueTextColor = Color.GRAY
-                            valueTextSize = 10f
-                            setGradientColor(Color.parseColor("#42A5F5"), Color.parseColor("#B3E5FC"))
+                        if (bloodOxygenData != null) {
+                            val entries = bloodOxygenData!!.mapIndexed { index, data ->
+                                BarEntry(index.toFloat(), data.BOxygen.toFloat())
+                            }
+                            val dataSet = BarDataSet(entries, "혈중 산소").apply {
+                                color = Color.parseColor("#42A5F5")
+                                valueTextColor = Color.GRAY
+                                valueTextSize = 10f
+                                setGradientColor(
+                                    Color.parseColor("#42A5F5"),
+                                    Color.parseColor("#B3E5FC")
+                                )
+                            }
+                            val barData = BarData(dataSet)
+                            this.data = barData
+
+                            // X축 설정
+                            xAxis.position = XAxis.XAxisPosition.BOTTOM
+                            xAxis.textColor = Color.GRAY
+                            xAxis.setDrawGridLines(false)
+                            xAxis.granularity = 1f
+
+                            // Y축 설정
+                            axisLeft.textColor = Color.GRAY
+                            axisLeft.axisMinimum = 0f
+                            axisLeft.axisMaximum = 100f
+                            axisRight.isEnabled = false
+
+                            description.isEnabled = false
+                            legend.isEnabled = false
+
+                            setFitBars(true)
+                            invalidate() // 그래프 업데이트
                         }
-
-                        val barData = BarData(dataSet)
-                        data = barData
-
-                        // X축 설정
-                        xAxis.position = XAxis.XAxisPosition.BOTTOM
-                        xAxis.textColor = Color.GRAY
-                        xAxis.setDrawGridLines(false)
-                        xAxis.granularity = 1f
-
-                        // Y축 설정
-                        axisLeft.textColor = Color.GRAY
-                        axisLeft.axisMinimum = 0f
-                        axisLeft.axisMaximum = 100f
-                        axisRight.isEnabled = false
-
-                        description.isEnabled = false
-                        legend.isEnabled = false
-
-                        setFitBars(true)
                     }
                 },
                 modifier = Modifier
@@ -121,16 +132,31 @@ fun OxygenLevelCard(navController: NavController) {
                 horizontalArrangement = Arrangement.SpaceBetween,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text(
-                    text = "\uD83D\uDCA7 98 %",
-                    fontSize = 16.sp,
-                    color = androidx.compose.ui.graphics.Color(0xFF42A5F5)
-                )
-                Text(
-                    text = "범위: 97 ~ 98 %",
-                    fontSize = 14.sp,
-                    color = androidx.compose.ui.graphics.Color.Gray
-                )
+                if (bloodOxygenData != null) {
+                    val latestData = bloodOxygenData!!.last()
+                    Text(
+                        text = "\uD83D\uDCA7 ${latestData.BOxygen} %",
+                        fontSize = 16.sp,
+                        color = androidx.compose.ui.graphics.Color(0xFF42A5F5)
+                    )
+                    Text(
+                        text = "범위: ${bloodOxygenData!!.minOf { it.BOxygen }} ~ ${bloodOxygenData!!.maxOf { it.BOxygen }} %",
+                        fontSize = 14.sp,
+                        color = androidx.compose.ui.graphics.Color.Gray
+                    )
+                } else if (isLoading) {
+                    Text(
+                        text = "데이터 로딩 중...",
+                        fontSize = 16.sp,
+                        color = androidx.compose.ui.graphics.Color.Gray
+                    )
+                } else {
+                    Text(
+                        text = "데이터를 불러올 수 없습니다.",
+                        fontSize = 16.sp,
+                        color = androidx.compose.ui.graphics.Color.Red
+                    )
+                }
             }
         }
     }
