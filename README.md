@@ -1,6 +1,6 @@
 # smartring
 
-A new Flutter project.
+A new Kotiln project.
 
 ## Getting Started
 
