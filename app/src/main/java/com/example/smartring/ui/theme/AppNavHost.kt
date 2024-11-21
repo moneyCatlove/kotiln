@@ -17,20 +17,17 @@ import com.example.smartring.ui.theme.setting.*
 
 @Composable
 fun AppNavHost(bluetoothManager: BluetoothManager) {
-    // 네비게이션 컨트롤러 초기화
     val navController = rememberNavController()
 
-    // Scaffold를 사용하여 상단바와 하단바 포함
     Scaffold(
-        topBar = { TopBar(bluetoothManager = bluetoothManager) },
+        topBar = { TopBar(BluetoothManager = bluetoothManager) },
         bottomBar = { BottomNavigationBar(navController = navController) },
-        containerColor = Color(0xFFF7F7F7) // 배경색 설정
+        containerColor = Color(0xFFF7F7F7)
     ) { innerPadding ->
-        // 네비게이션 호스트
         NavHost(
             navController = navController,
-            startDestination = "home", // 초기 화면
-            modifier = Modifier.padding(innerPadding) // Scaffold 패딩 추가
+            startDestination = "home",
+            modifier = Modifier.padding(innerPadding)
         ) {
             // Main Screens
             composable("home") { MainScreen(navController = navController) }
@@ -54,7 +51,7 @@ fun AppNavHost(bluetoothManager: BluetoothManager) {
             composable("find_ring_screen") {
                 FindRingScreen(
                     navController = navController,
-                    bluetoothManager = bluetoothManager
+                    BluetoothManager = bluetoothManager
                 )
             }
             composable("health_monitoring_screen") { HealthMonitoringSettingsScreen(navController = navController) }
