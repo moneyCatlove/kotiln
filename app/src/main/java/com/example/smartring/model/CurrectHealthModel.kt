@@ -55,6 +55,6 @@ object CurrectHealthFetcher {
         })
 
         // BLE 명령 호출
-        manager.cmdGet17() // cmdGet17() 호출로 변경
+        manager.cmdGet17()
     }
 }
