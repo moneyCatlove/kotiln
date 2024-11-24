@@ -26,42 +26,42 @@ fun HealthCareScreen(navController: NavController) {
                 .padding(horizontal = 16.dp),
             contentPadding = PaddingValues(vertical = 16.dp)
         ) {
-            item {
-                SleepCard(navController = navController)
-            }
-            item {
-                HeartRateCard(navController = navController)
-            }
-            item {
-                OxygenLevelCard(navController = navController)
-            }
-            item {
-                StressCard(navController = navController)
-            }
-            item {
-                ActivityCard(navController = navController)
-            }
+//            item {
+//                SleepCard(navController = navController)
+//            }
+//            item {
+//                HeartRateCard(navController = navController)
+//            }
+//            item {
+//                OxygenLevelCard(navController = navController)
+//            }
+//            item {
+//                StressCard(navController = navController)
+//            }
+//            item {
+//                ActivityCard(navController = navController)
+//            }
         }
     }
 }
 
-@Composable
-fun SleepCard(navController: NavController) {
-    CardTemplate(
-        title = "수면 데이터",
-        date = "2024년 8월 19일",
-        content = "오늘 수면 시간: 7시간 30분"
-    )
-}
-
-@Composable
-fun HeartRateCard(navController: NavController) {
-    CardTemplate(
-        title = "심박수 데이터",
-        date = "2024년 8월 19일",
-        content = "현재 심박수: 72 bpm"
-    )
-}
+//@Composable
+//fun SleepCard(navController: NavController) {
+//    CardTemplate(
+//        title = "수면 데이터",
+//        date = "2024년 8월 19일",
+//        content = "오늘 수면 시간: 7시간 30분"
+//    )
+//}
+//
+//@Composable
+//fun HeartRateCard(navController: NavController) {
+//    CardTemplate(
+//        title = "심박수 데이터",
+//        date = "2024년 8월 19일",
+//        content = "현재 심박수: 72 bpm"
+//    )
+//}
 
 @Composable
 fun OxygenLevelCard(navController: NavController) {
@@ -72,14 +72,14 @@ fun OxygenLevelCard(navController: NavController) {
     )
 }
 
-@Composable
-fun StressCard(navController: NavController) {
-    CardTemplate(
-        title = "스트레스 데이터",
-        date = "2024년 8월 19일",
-        content = "현재 스트레스 레벨: 낮음"
-    )
-}
+//@Composable
+//fun StressCard(navController: NavController) {
+//    CardTemplate(
+//        title = "스트레스 데이터",
+//        date = "2024년 8월 19일",
+//        content = "현재 스트레스 레벨: 낮음"
+//    )
+//}
 
 @Composable
 fun ActivityCard(navController: NavController) {
