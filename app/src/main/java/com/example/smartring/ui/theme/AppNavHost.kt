@@ -43,7 +43,7 @@ fun AppNavHost() {
             composable("health_main") { HealthCareScreen(navController = navController) }
             composable("sleep_day_detail_screen") { SleepDayDetailScreen(navController = navController) }
             composable("heart_rate_detail_screen") { HeartRateDetailScreen(navController = navController) }
-//            composable("oxygen_level_detail_screen") { OxygenLevelDetailScreen(navController = navController) }
+            composable("oxygen_level_detail_screen") { OxygenLevelDetailScreen(navController = navController) }
             composable("stress_day_detail_screen") { StressDayDetailScreen(navController = navController) }
             composable("activity_detail_screen") { ActivityDetailScreen(navController = navController) }
 
