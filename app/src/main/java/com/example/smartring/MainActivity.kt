@@ -85,7 +85,8 @@ class MainActivity :
                 }
                 MSG_JSON_DATA -> {
                     val jsonInfo = msg.obj as JsonInfo
-                    Log.d("umjunsik", jsonInfo.jsonObject.toString())
+                    Log.d("umjunsik", jsonInfo.toString())
+                    result[jsonInfo.cmdKey!!] = jsonInfo.jsonObject!!
                 }
                 MSG_LOW_BATTERY -> {
                     Log.d("umjunsik", "배터리 없음")
@@ -122,14 +123,13 @@ class MainActivity :
         cmdKey: String,
         jsonObject: JSONObject,
     ) {
-        Log.d("umjunsik", "888888888")
-        val jsonInfo: JsonInfo = JsonInfo()
+        result[cmdKey] = jsonObject
+        val jsonInfo = JsonInfo()
         jsonInfo.cmdKey = cmdKey
         jsonInfo.jsonObject = jsonObject
         val msg = Message.obtain()
         msg.what = MSG_JSON_DATA
         msg.obj = jsonInfo
-        result.add(jsonObject)
         handler.sendMessageDelayed(msg, 500)
     }
 
@@ -153,6 +153,6 @@ class MainActivity :
     }
 
     companion object {
-        var result: MutableList<JSONObject> = mutableListOf()
+        var result: MutableMap<String, JSONObject> = mutableMapOf()
     }
 }

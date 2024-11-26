@@ -7,5 +7,5 @@ data class HeartRateResponseModel(
 data class HeartRateData(
     val date: String, // 날짜
     val time: String, // 시간 (정각, 시:분)
-    val heartRate: Int, // 심박수 값
+    val heart_rate: String, // 심박수 값
 )

@@ -1,6 +1,5 @@
 package com.example.smartring.ui.theme.healthcare
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -8,7 +7,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -16,7 +14,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
@@ -31,22 +28,17 @@ import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 
 @Composable
-fun HeartRateDetailScreen(navController: NavController, controller: HeartBeatController) {
+fun HeartRateDetailScreen(
+    navController: NavController,
+    controller: HeartBeatController,
+) {
     val bleData = remember { mutableStateOf<HeartRateResponseModel?>(null) }
 
-    val isConnected =
-        MainApplication.instance
-            ?.isConnectedState
-            ?.collectAsState(initial = false)
-            ?.value ?: false
-
-    LaunchedEffect(isConnected) {
-        if (isConnected) {
+    LaunchedEffect(Unit) {
+        if (MainApplication.instance?.isConnectedState?.value == true) {
             bleData.value = controller.getData()
         }
-        Log.d("umjunsik", "데이터변경")
     }
-
 
     LazyColumn(
         modifier =
@@ -118,17 +110,20 @@ fun HeartRateDetailScreen(navController: NavController, controller: HeartBeatCon
                         .padding(16.dp),
             ) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text(
-                        text = "07/18 08:30",
-                        fontSize = 14.sp,
-                        color = Color.Gray,
-                    )
-                    Text(
-                        text = "100 bpm",
-                        fontSize = 36.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color.Red,
-                    )
+                    bleData.value?.array.let {
+                        Text(
+                            text =
+                                it?.get(0)?.date ?: "데이터가 없어요",
+                            fontSize = 14.sp,
+                            color = Color.Gray,
+                        )
+                        Text(
+                            text = "${it?.get(0)?.heart_rate}bpm",
+                            fontSize = 36.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Color.Red,
+                        )
+                    }
                     Spacer(modifier = Modifier.height(16.dp))
 
                     AndroidView(

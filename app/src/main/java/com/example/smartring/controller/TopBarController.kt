@@ -14,7 +14,7 @@ class TopBarController {
     fun getInfoDevice(): DeviceDataModel {
         manager?.cmdGet0()
         runBlocking { launch { runBlocking { delay(1500) } } }
-        val objectInList = result.last()
+        val objectInList = result["GET,0"]
         return gson.fromJson(gson.toJson(objectInList), DeviceDataModel::class.java)
     }
 }

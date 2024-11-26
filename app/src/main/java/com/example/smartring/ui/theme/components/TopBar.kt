@@ -32,7 +32,7 @@ fun TopBar(controller: TopBarController) {
 
     LaunchedEffect(isConnected) {
         if (isConnected) {
-            bleData.value = controller.getInfoDevice() // bleData를 상태로 갱신
+            bleData.value = controller.getInfoDevice()
         }
     }
 
