@@ -24,14 +24,12 @@ import com.example.smartring.model.DeviceDataModel
 fun TopBar(controller: TopBarController) {
     val bleData = remember { mutableStateOf<DeviceDataModel?>(null) }
 
-    // isConnected 상태를 collectAsState로 수집
     val isConnected =
         MainApplication.instance
             ?.isConnectedState
             ?.collectAsState(initial = false)
             ?.value ?: false
 
-    // isConnected 상태가 변경될 때마다 bleData를 갱신
     LaunchedEffect(isConnected) {
         if (isConnected) {
             bleData.value = controller.getInfoDevice() // bleData를 상태로 갱신
@@ -64,12 +62,10 @@ fun TopBar(controller: TopBarController) {
                 fontSize = 25.sp,
                 fontWeight = FontWeight.Bold,
             )
-            bleData.value?.let {
-                ConnectionStatus(
-                    isConnected = isConnected,
-                    batteryLevel = it.battery_capacity,
-                )
-            }
+            ConnectionStatus(
+                isConnected = isConnected,
+                batteryLevel = bleData.value?.battery_capacity,
+            )
         }
     }
 }
