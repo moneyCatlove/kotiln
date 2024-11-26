@@ -13,7 +13,9 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 
-class BluetoothManager(private val context: Context) {
+class BluetoothManager(
+    private val context: Context,
+) {
     private val bluetoothAdapter: BluetoothAdapter? by lazy {
         val bluetoothManager = context.getSystemService(Context.BLUETOOTH_SERVICE) as? BluetoothManager
         bluetoothManager?.adapter
@@ -39,28 +41,37 @@ class BluetoothManager(private val context: Context) {
         }
 
         try {
-            bluetoothGatt = device.connectGatt(context, false, object : BluetoothGattCallback() {
-                override fun onConnectionStateChange(gatt: BluetoothGatt?, status: Int, newState: Int) {
-                    if (newState == BluetoothProfile.STATE_CONNECTED) {
-                        showToast("Connected to device.")
-                        onConnectionStatusChange?.invoke(true)
+            bluetoothGatt =
+                device.connectGatt(
+                    context,
+                    false,
+                    object : BluetoothGattCallback() {
+                        override fun onConnectionStateChange(
+                            gatt: BluetoothGatt?,
+                            status: Int,
+                            newState: Int,
+                        ) {
+                            if (newState == BluetoothProfile.STATE_CONNECTED) {
+                                showToast("Connected to device.")
+                                onConnectionStatusChange?.invoke(true)
 
-                        if (hasBluetoothPermission()) {
-                            try {
-                                gatt?.discoverServices()
-                            } catch (e: SecurityException) {
-                                println("SecurityException during service discovery: ${e.message}")
+                                if (hasBluetoothPermission()) {
+                                    try {
+                                        gatt?.discoverServices()
+                                    } catch (e: SecurityException) {
+                                        println("SecurityException during service discovery: ${e.message}")
+                                    }
+                                } else {
+                                    println("BLUETOOTH_CONNECT permission not granted.")
+                                    requestBluetoothPermission(context as? Activity)
+                                }
+                            } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
+                                showToast("Disconnected from device.")
+                                onConnectionStatusChange?.invoke(false)
                             }
-                        } else {
-                            println("BLUETOOTH_CONNECT permission not granted.")
-                            requestBluetoothPermission(context as? Activity)
                         }
-                    } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
-                        showToast("Disconnected from device.")
-                        onConnectionStatusChange?.invoke(false)
-                    }
-                }
-            })
+                    },
+                )
         } catch (e: SecurityException) {
             println("SecurityException during connection: ${e.message}")
         }
@@ -70,7 +81,7 @@ class BluetoothManager(private val context: Context) {
         if (hasBluetoothPermission()) {
             if (ActivityCompat.checkSelfPermission(
                     context,
-                    Manifest.permission.BLUETOOTH_CONNECT
+                    Manifest.permission.BLUETOOTH_CONNECT,
                 ) != PackageManager.PERMISSION_GRANTED
             ) {
                 // TODO: Consider calling
@@ -91,13 +102,12 @@ class BluetoothManager(private val context: Context) {
         }
     }
 
-    private fun hasBluetoothPermission(): Boolean {
-        return if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
+    private fun hasBluetoothPermission(): Boolean =
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
             ContextCompat.checkSelfPermission(context, Manifest.permission.BLUETOOTH_CONNECT) == PackageManager.PERMISSION_GRANTED
         } else {
             true
         }
-    }
 
     private fun requestBluetoothPermission(activity: Activity?) {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
@@ -105,7 +115,7 @@ class BluetoothManager(private val context: Context) {
                 ActivityCompat.requestPermissions(
                     it,
                     arrayOf(Manifest.permission.BLUETOOTH_CONNECT),
-                    1
+                    1,
                 )
             }
         }

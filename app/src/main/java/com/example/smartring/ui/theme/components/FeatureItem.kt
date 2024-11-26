@@ -7,20 +7,25 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
 
 @Composable
-fun FeatureItem(title: String, subtitle: String, iconId: Int) {
+fun FeatureItem(
+    title: String,
+    subtitle: String,
+    iconId: Int,
+) {
     Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 4.dp)
-            .clickable { /* TODO: Navigate to respective screen */ },
-        verticalAlignment = Alignment.CenterVertically
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .padding(vertical = 4.dp)
+                .clickable { /* TODO: Navigate to respective screen */ },
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         Column(modifier = Modifier.weight(1f)) {
             Text(text = title, fontSize = 24.sp, fontWeight = FontWeight.Bold)
@@ -29,7 +34,7 @@ fun FeatureItem(title: String, subtitle: String, iconId: Int) {
         Icon(
             painter = painterResource(id = iconId),
             contentDescription = title,
-            modifier = Modifier.size(16.dp)
+            modifier = Modifier.size(16.dp),
         )
     }
 }
