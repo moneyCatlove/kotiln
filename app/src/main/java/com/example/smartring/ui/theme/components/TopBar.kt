@@ -5,6 +5,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -13,18 +15,34 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.smartring.MainApplication
 import com.example.smartring.R
+import com.example.smartring.controller.TopBarController
+import com.example.smartring.model.DeviceDataModel
 
 @Composable
-fun TopBar() {
-    val isConnected = remember { mutableStateOf(true) }
-    val remainingBettery: Int = 0
+fun TopBar(controller: TopBarController) {
+    val bleData = remember { mutableStateOf<DeviceDataModel?>(null) }
+
+    // isConnected 상태를 collectAsState로 수집
+    val isConnected =
+        MainApplication.instance
+            ?.isConnectedState
+            ?.collectAsState(initial = false)
+            ?.value ?: false
+
+    // isConnected 상태가 변경될 때마다 bleData를 갱신
+    LaunchedEffect(isConnected) {
+        if (isConnected) {
+            bleData.value = controller.getInfoDevice() // bleData를 상태로 갱신
+        }
+    }
 
     Box(
         modifier =
-        Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 24.dp),
+            Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 24.dp),
     ) {
         IconButton(
             onClick = { /* TODO: Drawer open */ },
@@ -46,10 +64,12 @@ fun TopBar() {
                 fontSize = 25.sp,
                 fontWeight = FontWeight.Bold,
             )
-            ConnectionStatus(
-                isConnected = isConnected.value, // .value 전달
-                batteryLevel = remainingBettery,
-            )
+            bleData.value?.let {
+                ConnectionStatus(
+                    isConnected = isConnected,
+                    batteryLevel = it.battery_capacity,
+                )
+            }
         }
     }
 }

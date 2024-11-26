@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun ConnectionStatus(
     isConnected: Boolean,
-    batteryLevel: Int,
+    batteryLevel: Int?,
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,

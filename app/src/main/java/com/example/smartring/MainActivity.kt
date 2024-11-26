@@ -75,6 +75,7 @@ class MainActivity :
 
     val handler =
         Handler(Looper.getMainLooper()) { msg ->
+            Log.d("umjunsik", msg.toString())
             when (msg.what) {
                 MSG_DISCONNECT -> {
                     Log.d("umjunsik", "끊김")
@@ -110,24 +111,26 @@ class MainActivity :
     }
 
     override fun onConnected() {
-        Log.d("umjunsik", "연결됨")
+        MainApplication.instance?.isConnectedState?.value = true
+        Log.d("umjunsik", "!!!!!!!!!!!!!")
     }
 
     override fun onDisConnect() {
-        Log.d("umjunsik", "연결 끊어짐")
+        MainApplication.instance?.isConnectedState?.value = false
     }
 
     override fun jsonObjectData(
         cmdKey: String,
         jsonObject: JSONObject,
     ) {
+        Log.d("umjunsik", "888888888")
         val jsonInfo: JsonInfo = JsonInfo()
         jsonInfo.cmdKey = cmdKey
         jsonInfo.jsonObject = jsonObject
         val msg = Message.obtain()
         msg.what = MSG_JSON_DATA
         msg.obj = jsonInfo
-        result.plus(jsonObject)
+        result.add(jsonObject)
         handler.sendMessageDelayed(msg, 500)
     }
 
@@ -151,6 +154,6 @@ class MainActivity :
     }
 
     companion object {
-        var result: List<JSONObject> = mutableListOf()
+        var result: MutableList<JSONObject> = mutableListOf()
     }
 }

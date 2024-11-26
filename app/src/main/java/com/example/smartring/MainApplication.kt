@@ -2,6 +2,7 @@ package com.example.smartring
 
 import android.app.Application
 import com.smtlink.transferprotocolsdk.ble.BleTransferManager
+import kotlinx.coroutines.flow.MutableStateFlow
 
 class MainApplication : Application() {
     override fun onCreate() {
@@ -10,7 +11,7 @@ class MainApplication : Application() {
         manager = BleTransferManager.initialized(this)
     }
 
-    var isConnectedState: Boolean = false
+    var isConnectedState = MutableStateFlow(false)
 
     companion object {
         var instance: MainApplication? = null

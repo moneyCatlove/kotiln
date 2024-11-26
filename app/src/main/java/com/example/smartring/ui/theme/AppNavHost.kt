@@ -8,19 +8,19 @@ import androidx.compose.ui.graphics.Color
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.smartring.controller.TopBarController
 import com.example.smartring.ui.theme.components.BottomNavigationBar
 import com.example.smartring.ui.theme.components.TopBar
 import com.example.smartring.ui.theme.healthcare.*
 import com.example.smartring.ui.theme.main.*
 import com.example.smartring.ui.theme.setting.*
-import com.example.smartring.ble.BluetoothManager;
 
 @Composable
 fun AppNavHost() {
     val navController = rememberNavController()
 
     Scaffold(
-        topBar = { TopBar() },
+        topBar = { TopBar(TopBarController()) },
         bottomBar = { BottomNavigationBar(navController = navController) },
         containerColor = Color(0xFFF7F7F7),
     ) { innerPadding ->
