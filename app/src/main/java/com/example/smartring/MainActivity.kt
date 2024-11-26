@@ -107,12 +107,11 @@ class MainActivity :
         p1: Int,
         p2: Int,
     ) {
-        Log.d("umjunsik", "변경")
+        Log.d("umjunsik", "통신 상태 변경")
     }
 
     override fun onConnected() {
         MainApplication.instance?.isConnectedState?.value = true
-        Log.d("umjunsik", "!!!!!!!!!!!!!")
     }
 
     override fun onDisConnect() {
