@@ -13,20 +13,14 @@ class CurrectHealthModelController {
     private val gson = Gson()
 
     fun getData(): CurrectHealthModel? {
-        // BLE 명령 실행
         manager?.cmdGet17()
 
-        // 데이터 수신 대기 (2초)
         runBlocking {
             launch {
-                delay(2000)
-            }
-        }
+                delay(2000) }}
 
-        // 결과 가져오기
         val rawResult = result?.get("GET,17") ?: return null
 
-        // JSON 데이터를 CurrectHealthModel로 변환
         return gson.fromJson(gson.toJson(rawResult), CurrectHealthModel::class.java)
     }
 }
