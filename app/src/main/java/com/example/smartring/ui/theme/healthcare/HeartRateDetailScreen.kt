@@ -118,7 +118,7 @@ fun HeartRateDetailScreen(
                             color = Color.Gray,
                         )
                         Text(
-                            text = "${it?.get(0)?.heart_rate}bpm",
+                            text = it?.get(0)?.heart_rate ?: ("0" + "bpm"),
                             fontSize = 36.sp,
                             fontWeight = FontWeight.Bold,
                             color = Color.Red,
