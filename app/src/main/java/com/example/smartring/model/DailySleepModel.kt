@@ -67,7 +67,6 @@ object DailySleepFetcher {
             }
         })
 
-        // BLE 명령 호출
         manager.cmdGet12()
     }
 }
