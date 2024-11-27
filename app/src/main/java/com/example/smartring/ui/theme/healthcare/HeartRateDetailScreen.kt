@@ -1,5 +1,6 @@
 package com.example.smartring.ui.theme.healthcare
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -38,6 +39,7 @@ fun HeartRateDetailScreen(
         if (MainApplication.instance?.isConnectedState?.value == true) {
             bleData.value = controller.getData()
         }
+        Log.d("umjunsik", bleData.value.toString())
     }
 
     LazyColumn(
