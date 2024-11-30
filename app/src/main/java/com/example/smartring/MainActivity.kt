@@ -3,11 +3,7 @@ package com.example.smartring
 import android.Manifest
 import android.bluetooth.BluetoothGatt
 import android.content.pm.PackageManager
-import android.os.Build
-import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.os.Message
+import android.os.*
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -25,47 +21,19 @@ class MainActivity :
     ComponentActivity(),
     BTMGattCallBack,
     AnalyticalDataCallBack {
-    @Suppress("ktlint:standard:property-naming")
-    val MSG_DISCONNECT: Int = 0
 
-    @Suppress("ktlint:standard:property-naming")
-    val MSG_CONNECTED: Int = 1
-
-    @Suppress("ktlint:standard:property-naming")
-    val MSG_JSON_DATA: Int = 2
-
-    @Suppress("ktlint:standard:property-naming")
-    val MSG_LOW_BATTERY: Int = 3
+    private val TAG = "SmartRing"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        var permissions = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION)
+        checkPermissions()
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            permissions =
-                arrayOf(
-                    Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.BLUETOOTH_SCAN,
-                    Manifest.permission.BLUETOOTH_CONNECT,
-                )
-        }
-        if (ContextCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_FINE_LOCATION,
-            ) != PackageManager.PERMISSION_GRANTED ||
-            ContextCompat.checkSelfPermission(
-                this,
-                Manifest.permission.BLUETOOTH_CONNECT,
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            requestPermissions(permissions, 100)
+        manager?.apply {
+            setBTMGattCallBack(this@MainActivity)
+            setAnalyticalDataCallBack(this@MainActivity)
         }
 
-        manager?.setBTMGattCallBack(this)
-        manager?.setAnalyticalDataCallBack(this)
-
-        // Compose 시작
         setContent {
             SmartRingTheme {
                 AppNavHost()
@@ -73,86 +41,101 @@ class MainActivity :
         }
     }
 
-    val handler =
-        Handler(Looper.getMainLooper()) { msg ->
-            Log.d("umjunsik", msg.toString())
-            when (msg.what) {
-                MSG_DISCONNECT -> {
-                    Log.d("umjunsik", "끊김")
-                }
-                MSG_CONNECTED -> {
-                    Log.d("umjunsik", "연결됨")
-                }
-                MSG_JSON_DATA -> {
-                    val jsonInfo = msg.obj as JsonInfo
-                    Log.d("umjunsik", jsonInfo.toString())
-                    result[jsonInfo.cmdKey!!] = jsonInfo.jsonObject!!
-                }
-                MSG_LOW_BATTERY -> {
-                    Log.d("umjunsik", "배터리 없음")
-                }
-            }
-            false
+    private fun checkPermissions() {
+        val permissions = mutableListOf(
+            Manifest.permission.ACCESS_FINE_LOCATION
+        )
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            permissions.addAll(
+                listOf(
+                    Manifest.permission.BLUETOOTH_SCAN,
+                    Manifest.permission.BLUETOOTH_CONNECT
+                )
+            )
         }
+
+        val missingPermissions = permissions.filter {
+            ContextCompat.checkSelfPermission(this, it) != PackageManager.PERMISSION_GRANTED
+        }
+
+        if (missingPermissions.isNotEmpty()) {
+            requestPermissions(missingPermissions.toTypedArray(), 100)
+        }
+    }
+
+    private val handler = Handler(Looper.getMainLooper()) { msg ->
+        when (msg.what) {
+            MSG_DISCONNECT -> Log.d(TAG, "Device disconnected.")
+            MSG_CONNECTED -> Log.d(TAG, "Device connected.")
+            MSG_JSON_DATA -> {
+                val jsonInfo = msg.obj as JsonInfo
+                Log.d(TAG, "Received JSON data: $jsonInfo")
+                result[jsonInfo.cmdKey] = jsonInfo.jsonObject
+            }
+            MSG_LOW_BATTERY -> Log.d(TAG, "Low battery warning.")
+        }
+        true
+    }
 
     override fun onStart() {
         super.onStart()
-        if (!BluetoothOpenStateUtil.isBluetoothOpen()) { // 检查蓝牙开关状态
+        if (!BluetoothOpenStateUtil.isBluetoothOpen()) {
             BluetoothOpenStateUtil.openBluetooth(this)
         }
+
         manager?.connectGatt("6F:55:45:34:23:23", false)
     }
 
-    override fun onConnectionStateChange(
-        p0: BluetoothGatt?,
-        p1: Int,
-        p2: Int,
-    ) {
-        Log.d("umjunsik", "통신 상태 변경")
+    override fun onConnectionStateChange(gatt: BluetoothGatt?, status: Int, newState: Int) {
+        Log.d(TAG, "Connection state changed: status=$status, newState=$newState")
     }
 
     override fun onConnected() {
         MainApplication.instance?.isConnectedState?.value = true
+        Log.d(TAG, "Successfully connected to device.")
     }
 
     override fun onDisConnect() {
         MainApplication.instance?.isConnectedState?.value = false
+        Log.d(TAG, "Disconnected from device.")
     }
 
-    override fun jsonObjectData(
-        cmdKey: String,
-        jsonObject: JSONObject,
-    ) {
+    override fun jsonObjectData(cmdKey: String, jsonObject: JSONObject) {
         result[cmdKey] = jsonObject
-        val jsonInfo = JsonInfo()
-        jsonInfo.cmdKey = cmdKey
-        jsonInfo.jsonObject = jsonObject
-        val msg = Message.obtain()
-        msg.what = MSG_JSON_DATA
-        msg.obj = jsonInfo
+        val jsonInfo = JsonInfo().apply {
+            this.cmdKey = cmdKey
+            this.jsonObject = jsonObject
+        }
+        val msg = Message.obtain().apply {
+            what = MSG_JSON_DATA
+            obj = jsonInfo
+        }
         handler.sendMessageDelayed(msg, 500)
     }
 
-    override fun pushDataProgress(
-        p0: Int,
-        p1: Int,
-    ) {
-        Log.d("umjunsik", "데이터 넣는중")
+    override fun pushDataProgress(progress: Int, totalProgress: Int) {
+        Log.d(TAG, "Data transfer in progress: $progress/$totalProgress")
     }
 
-    override fun pushDataProgressState(p0: Int) {
-        Log.d("umjunsik", "데이터 진행 상태")
+    override fun pushDataProgressState(stateCode: Int) {
+        Log.d(TAG, "Data transfer state code: $stateCode")
     }
 
     override fun pushDataNotStartedLowBattery() {
-        Log.d("umjunsik", "배터리 없음")
+        Log.d(TAG, "Data transfer not started due to low battery.")
     }
 
-    override fun getGpsDataProgress(p0: Int) {
-        Log.d("umjunsik", "GPS")
+    override fun getGpsDataProgress(progress: Int) {
+        Log.d(TAG, "GPS data progress: $progress%")
     }
 
     companion object {
-        var result: MutableMap<String, JSONObject> = mutableMapOf()
+        val result: MutableMap<String, JSONObject> = mutableMapOf()
+
+        private const val MSG_DISCONNECT = 0
+        private const val MSG_CONNECTED = 1
+        private const val MSG_JSON_DATA = 2
+        private const val MSG_LOW_BATTERY = 3
     }
 }

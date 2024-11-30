@@ -12,6 +12,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.smartring.MainApplication
 import com.example.smartring.controller.DailySleepController
 
 @Composable
@@ -30,7 +31,11 @@ fun HealthCareScreen(navController: NavController) {
             contentPadding = PaddingValues(vertical = 16.dp),
         ) {
             item {
-                SleepCard(navController = navController, controller = DailySleepController())
+                val bleManager = MainApplication.manager
+                bleManager?.let { manager ->
+                    val dailySleepController = DailySleepController(manager)
+                    SleepCard(navController = navController, controller = dailySleepController)
+                }
             }
             item {
                 HeartRateCard(navController = navController)

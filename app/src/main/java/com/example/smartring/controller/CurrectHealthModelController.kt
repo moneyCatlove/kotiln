@@ -1,6 +1,5 @@
 package com.example.smartring.controller
 
-import android.util.Log
 import com.example.smartring.MainActivity.Companion.result
 import com.example.smartring.MainApplication.Companion.manager
 import com.example.smartring.model.CurrectHealthModel
@@ -14,7 +13,6 @@ class CurrectHealthModelController {
 
     fun getData(): CurrectHealthModel? {
         manager?.cmdGet17()
-
         runBlocking {
             launch {
                 delay(2000) }}

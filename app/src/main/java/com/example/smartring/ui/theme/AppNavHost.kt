@@ -8,6 +8,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.smartring.MainApplication
+import com.example.smartring.controller.DailySleepController
+import com.example.smartring.controller.DailySleepStateController
 import com.example.smartring.controller.HeartBeatController
 import com.example.smartring.controller.TopBarController
 import com.example.smartring.ui.theme.components.BottomNavigationBar
@@ -42,7 +45,15 @@ fun AppNavHost() {
 
             // HealthCare Screens
             composable("health_main") { HealthCareScreen(navController = navController) }
-            composable("sleep_day_detail_screen") { SleepDayDetailScreen(navController = navController) }
+            composable(route = "sleep_day_detail_screen") {
+                MainApplication.manager?.let { bleManager ->
+                    val dailySleepStateController = DailySleepStateController(bleManager) // DailySleepStateController 사용
+                    SleepDayDetailScreen(
+                        navController = navController,
+                        controller = dailySleepStateController
+                    )
+                }
+            }
             composable("heart_rate_detail_screen") { HeartRateDetailScreen(navController = navController, controller = HeartBeatController()) }
             composable("oxygen_level_detail_screen") { OxygenLevelDetailScreen(navController = navController) }
             composable("stress_day_detail_screen") { StressDayDetailScreen(navController = navController) }
